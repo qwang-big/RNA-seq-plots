@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zoomable Volcano Plot with Tooltips in D3 v4</title>
+    <script src="../Common/d3.v4.min.js"></script>
+    <script src="../Common/utils.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <script src="func.js"></script>
+</head>
+<body>
+<button id="resetBtn">Reset</button>
+<input type="file" id="uploader">
+<img src="../Common/loading.gif" id="loading" style="margin: auto; display: block"/>
+<div id="chart">
+</div>
+
+<script>
+    var params=getParameterMap();
+    var yLabel = '-log<tspan baseline-shift="sub">10</tspan>False Discovery Rate',
+        xLabel = 'log<tspan baseline-shift="sub">2</tspan>Fold-change'
+
+    var volcanoPlot = volcanoPlot()
+        .xAxisLabel(xLabel)
+        .yAxisLabel(yLabel)
+        .foldChangeThreshold(2.0)
+        .sampleID("gene")
+        .xColumn("log2(fold_change)")
+        .yColumn("q_value");
+
+    function load_dataset(file) {
+        var data = d3.tsvParse(file, parser);
+        showLoading(false);
+
+            d3.select('#chart')
+                .data([data])
+                .call(volcanoPlot);
+    }
+    // row parser to convert key values into numbers if possible
+    function parser(d) {
+        for (var key in d) {
+            if (d.hasOwnProperty(key)) {
+                d[key] = numberParser(d[key]);
+            }
+        }
+        return d;
+    }
+
+    // function to turn string into number if possible
+    function numberParser(value){
+        return (+value) ? +value : value;
+    }
+
+    // handle upload button
+    function upload_button(el, callback) {
+      var uploader = document.getElementById(el);  
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+        var contents = e.target.result;
+        callback(contents);
+      };
+
+      uploader.addEventListener("change", handleFiles, false);  
+
+      function handleFiles() {
+        var file = this.files[0];
+        showLoading(true);
+        reader.readAsText(file);
+      };
+    }
+    if ("data" in params)
+        d3.tsv(params["data"], parser, function(error, data){
+            if (error) console.log(error);
+
+            d3.select('#chart')
+                .data([data])
+                .call(volcanoPlot);
+        });
+    showLoading(false);
+    upload_button("uploader", load_dataset);
+</script>
+<footer>
+  <p>Adapted from: <a href="https://bl.ocks.org/mbhall88/3eb7f295657d9fb81f039de6642727e0" target="_blank">
+https://bl.ocks.org/mbhall88/3eb7f295657d9fb81f039de6642727e0</a>.</p>
+</footer>
+</body>
+</html>
