@@ -1,6 +1,23 @@
+//Setup loading gif
 function showLoading(b) {
     d3.select("#loading").style("display", b? "block": "none");
 }
+
+//Setup and render the autocomplete
+function setAutocomplete() {
+    $( "#autocomplete" ).autocomplete({
+        // https://stackoverflow.com/questions/2382497/jquery-ui-autocomplete-widget-search-configuration
+        source: function(req, responseFn) {
+            var re = $.ui.autocomplete.escapeRegex(req.term);
+            var matcher = new RegExp( "^" + re, "i" );
+            var a = $.grep(genes, function(item,index){
+                return matcher.test(item);
+            });
+            responseFn(a);
+        }, minLength: 2
+    });
+}
+
 function makelist(data) {
     var j = 0
     for (var i in data) {
