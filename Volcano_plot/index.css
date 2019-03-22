@@ -1,5 +1,5 @@
 body {
-    font-family: 'Noto Sans', sans-serif;
+    font-family: sans-serif;
 }
 
 .axis path,
@@ -17,6 +17,11 @@ body {
 .label {
     fill: #666;
     font-weight: 700;
+    font-size: 12px;
+}
+
+footer {
+    fill: #666;
     font-size: 12px;
 }
 

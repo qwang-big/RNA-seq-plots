@@ -4,7 +4,7 @@ function showLoading(b) {
 }
 
 //Setup and render the autocomplete
-function setAutocomplete() {
+function setAutocomplete(len, fun) {
     $( "#autocomplete" ).autocomplete({
         // https://stackoverflow.com/questions/2382497/jquery-ui-autocomplete-widget-search-configuration
         source: function(req, responseFn) {
@@ -14,7 +14,8 @@ function setAutocomplete() {
                 return matcher.test(item);
             });
             responseFn(a);
-        }, minLength: 2
+        }, minLength: len,
+	select: fun
     });
 }
 

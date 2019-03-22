@@ -106,6 +106,7 @@ function volcanoPlot() {
                 .attr('r', 3)
                 .attr('cx', function(d) { return xScale(d[xColumn]); })
                 .attr('cy', function(d) { return yScale(d[yColumn]); })
+                .attr('id', function(d) { return d[sampleID]; })
                 .attr('class', circleClass)
                 .on('mouseenter', tipEnter)
                 .on("mousemove", tipMove)

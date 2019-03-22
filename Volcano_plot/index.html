@@ -5,21 +5,20 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <meta charset="UTF-8">
-    <title>Zoomable Volcano Plot with Tooltips in D3 v4</title>
+    <title>Zoomable Volcano Plot with Tooltips</title>
     <link rel="stylesheet" href="../Common/styles/jquery-ui.min.css">
     <script src="../Common/js/d3.v4.min.js"></script>
     <script src="../Common/js/utils.js"></script>
     <script src="../Common/js/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
     <script src="../Common/js/jquery-ui.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
     <script src="func.js"></script>
 </head>
 <body>
 <button id="resetBtn">Reset</button>
-<input type="file" id="uploader">
+File: <input type="file" id="uploader">
 <img src="../Common/images/loading.gif" id="loading" style="margin: auto; display: block"/>
-<input id="autocomplete" title="type &quot;a&quot;" class="ui-autocomplete-input" autocomplete="off">
+Search: <input id="autocomplete" title="type gene name" class="ui-autocomplete-input" autocomplete="off">
 <div id="chart">
 </div>
 
@@ -43,7 +42,7 @@
         d3.select('#chart')
             .data([data])
             .call(volcanoPlot);
-        setAutocomplete();
+        setAutocomplete(2, onSelect);
     }
     // row parser to convert key values into numbers if possible
     function parser(d) {
@@ -63,8 +62,11 @@
     }
 
     //Call back for when user selects an option
-    function onSelect(d) {
-
+    function onSelect(event, ui) {
+        var item = d3.select("#"+ui.item.label);
+        d3.select(".tooltip").style("top", 45+parseInt(item.attr('cy')) + "px")
+                    .style("left", 70+parseInt(item.attr('cx')) + "px");
+        item.dispatch("mouseenter")
     }
 
     // handle upload button
@@ -92,7 +94,7 @@
             d3.select('#chart')
                 .data([data])
                 .call(volcanoPlot);
-            setAutocomplete();
+            setAutocomplete(2, onSelect);
         });
     showLoading(false);
     upload_button("uploader", load_dataset);
