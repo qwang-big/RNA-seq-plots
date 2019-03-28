@@ -49,8 +49,12 @@ function volcanoPlot() {
                 .attr('width', width)
               .append('g')
                 .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
-                .call(zoom);
-
+                //.call(zoom);
+            svg
+                .on("mousedown", mousedown)
+                .on("mousemove", mousemove)
+                .on("mouseup", mouseup)
+                .on("mouseout", mouseout);
             // position the reset button and attach reset function
             d3.select('#resetBtn')
                 .style('top', margin.top * 1.5 + 'px')
@@ -111,7 +115,8 @@ function volcanoPlot() {
                 .on('mouseenter', tipEnter)
                 .on("mousemove", tipMove)
                 .on('mouseleave', function(d) {
-                   return tooltip.style('visibility', 'hidden');
+                    if (!dragsel)
+                       return tooltip.style('visibility', 'hidden');
                 });
 
             var thresholdLines = svg.append('g')
@@ -140,6 +145,7 @@ function volcanoPlot() {
                 .attr('class', 'tooltip');
 
             function tipEnter(d) {
+                if (!dragsel)
                 tooltip.style('visibility', 'visible')
                     .style('font-size', '11px')
                     .html(
@@ -150,6 +156,7 @@ function volcanoPlot() {
             }
 
             function tipMove() {
+                if (!dragsel)
                 tooltip.style("top", (event.pageY - 5) + "px")
                     .style("left", (event.pageX + 20) + "px");
             }
@@ -279,5 +286,12 @@ function volcanoPlot() {
         return chart;
     };
 
+    chart.x = function(d) {
+        return xScale(d[xColumn]); 
+    };
+
+    chart.y = function(d) {
+        return yScale(d[yColumn]); 
+    };
     return chart;
 }

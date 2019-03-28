@@ -27,7 +27,7 @@ Search: <input id="autocomplete" title="type gene name" class="ui-autocomplete-i
     var yLabel = '-log<tspan baseline-shift="sub">10</tspan>False Discovery Rate',
         xLabel = 'log<tspan baseline-shift="sub">2</tspan>Fold-change'
     var genes = [];
-    var volcanoPlot = volcanoPlot()
+    var plot = volcanoPlot()
         .xAxisLabel(xLabel)
         .yAxisLabel(yLabel)
         .foldChangeThreshold(2.0)
@@ -41,7 +41,7 @@ Search: <input id="autocomplete" title="type gene name" class="ui-autocomplete-i
 
         d3.select('#chart')
             .data([data])
-            .call(volcanoPlot);
+            .call(plot);
         setAutocomplete(2, onSelect);
     }
     // row parser to convert key values into numbers if possible
@@ -64,8 +64,9 @@ Search: <input id="autocomplete" title="type gene name" class="ui-autocomplete-i
     //Call back for when user selects an option
     function onSelect(event, ui) {
         var item = d3.select("#"+ui.item.label);
-        d3.select(".tooltip").style("top", 45+parseInt(item.attr('cy')) + "px")
-                    .style("left", 70+parseInt(item.attr('cx')) + "px");
+        var pos = $("#chart").position();
+        d3.select(".tooltip").style("top", pos.top+12+parseInt(item.attr('cy')) + "px")
+                    .style("left", pos.left+60+parseInt(item.attr('cx')) + "px");
         item.dispatch("mouseenter")
     }
 
@@ -93,7 +94,7 @@ Search: <input id="autocomplete" title="type gene name" class="ui-autocomplete-i
 
             d3.select('#chart')
                 .data([data])
-                .call(volcanoPlot);
+                .call(plot);
             setAutocomplete(2, onSelect);
         });
     showLoading(false);
