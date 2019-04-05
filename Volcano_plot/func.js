@@ -10,7 +10,7 @@ function volcanoPlot() {
         yAxisLabelOffset,
         xTicks, // number of ticks on the axis
         yTicks,
-        sampleID = "Gene",
+        sampleID = "gene",
         significanceThreshold = 0.05, // significance threshold to colour by
         foldChangeThreshold = 1.0, // fold change level to colour by
         colorRange, // colour range to use in the plot
