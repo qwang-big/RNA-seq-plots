@@ -34,7 +34,7 @@ function volcanoPlot() {
 
             // normally would set the y-range to [height, 0] but by swapping it I can flip the axis and thus
             // have -log10 scale without having to do extra parsing
-            yScale.range([0, innerHeight])
+            yScale.range([innerHeight, 0])
                 .domain(d3.extent(data, function(d) { return d[yColumn]; }))
                 .nice(); // adds "padding" so the domain extent is exactly the min and max values
 
