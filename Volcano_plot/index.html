@@ -25,7 +25,7 @@ Search: <input id="autocomplete" title="type gene name" class="ui-autocomplete-i
 
 <script>
     var params=getParameterMap();
-    var yLabel = '-log<tspan baseline-shift="sub">10</tspan>False Discovery Rate',
+    var yLabel = 'log<tspan baseline-shift="sub">2</tspan>Average expression',
         xLabel = 'log<tspan baseline-shift="sub">2</tspan>Fold-change'
     var genes = [];
     var plot = volcanoPlot()
@@ -51,9 +51,9 @@ Search: <input id="autocomplete" title="type gene name" class="ui-autocomplete-i
             if (d.hasOwnProperty(key)) {
                 d[key] = numberParser(d[key]);
             }
-            if ("gene" in d)
-                genes.push(d.gene);
         }
+        if ("gene" in d)
+            genes.push(d.gene);
         return d;
     }
 

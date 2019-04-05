@@ -3,10 +3,22 @@ function showLoading(b) {
     d3.select("#loading").style("display", b? "block": "none");
 }
 
+//Encrypt using AES-256
+function encrypt(content, key) {
+    var encrypted = CryptoJS.AES.encrypt(
+      content, key,
+      {
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+      }
+    );
+    return encrypted.toString();
+}
+
+//Decrypt using AES-256
 function decrypt(content, key) {
     var decrypted = CryptoJS.AES.decrypt(
-      content,
-      key,
+      content, key,
       {
         mode: CryptoJS.mode.CBC,
         padding: CryptoJS.pad.Pkcs7
