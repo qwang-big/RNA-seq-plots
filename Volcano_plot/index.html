@@ -32,8 +32,8 @@ Search: <input id="autocomplete" title="type gene name" class="ui-autocomplete-i
         .yAxisLabel(yLabel)
         .foldChangeThreshold(2.0)
         .sampleID("gene")
-        .xColumn("log2(fold_change)")
-        .yColumn("q_value");
+        .xColumn("rLogFC")
+        .yColumn("avgLogExpr");
 
     function load_dataset(file) {
         var data = d3.tsvParse(file, parser);
