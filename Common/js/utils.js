@@ -3,6 +3,18 @@ function showLoading(b) {
     d3.select("#loading").style("display", b? "block": "none");
 }
 
+function decrypt(content, key) {
+    var decrypted = CryptoJS.AES.decrypt(
+      content,
+      key,
+      {
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+      }
+    );
+    return decrypted.toString(CryptoJS.enc.Utf8);
+}
+
 //Setup and render the autocomplete
 function setAutocomplete(len, fun) {
     $( "#autocomplete" ).autocomplete({
