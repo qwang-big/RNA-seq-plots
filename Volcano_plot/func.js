@@ -11,6 +11,7 @@ function volcanoPlot() {
         xTicks, // number of ticks on the axis
         yTicks,
         sampleID = "gene",
+        dragsel = false,
         significanceThreshold = 0.05, // significance threshold to colour by
         foldChangeThreshold = 1.0, // fold change level to colour by
         colorRange, // colour range to use in the plot
@@ -50,7 +51,10 @@ function volcanoPlot() {
               .append('g')
                 .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
                 //.call(zoom);
-            svg.on("mousedown", mousedown).on("mousemove", mousemove).on("mouseup", mouseup).on("mouseout", mouseout);
+            
+            // drag selection calls
+            //svg.on("mousedown", mousedown).on("mousemove", mousemove).on("mouseup", mouseup).on("mouseout", mouseout);
+            
             // position the reset button and attach reset function
             d3.select('#resetBtn')
                 .style('top', margin.top * 1.5 + 'px')
@@ -139,14 +143,14 @@ function volcanoPlot() {
                 .attr('class', 'tooltip');
 
             function tipEnter(d) {
-                if (!dragsel)
+                if (!dragsel) {
+                var keys = Object.keys(d), s=''
+                for(i in keys)
+                    s += '<strong>' + keys[i] + '</strong>: ' + d[keys[i]] + '<br/>'
                 tooltip.style('visibility', 'visible')
                     .style('font-size', '11px')
-                    .html(
-                        '<strong>' + sampleID + '</strong>: ' + d[sampleID] + '<br/>' +
-                        '<strong>' + xColumn + '</strong>: ' + d3.format('.2f')(d[xColumn]) + '<br/>' +
-                        '<strong>' + yColumn + '</strong>: ' + d[yColumn]
-                    );
+                    .html(s);
+                }
             }
 
             function tipMove() {
