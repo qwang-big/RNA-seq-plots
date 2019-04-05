@@ -15,7 +15,7 @@ function volcanoPlot() {
         foldChangeThreshold = 1.0, // fold change level to colour by
         colorRange, // colour range to use in the plot
         xScale = d3.scaleLinear(), // the values for the axes will be continuous
-        yScale = d3.scaleLog();
+        yScale = d3.scaleLinear();
 
 
 
@@ -50,11 +50,7 @@ function volcanoPlot() {
               .append('g')
                 .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
                 //.call(zoom);
-            svg
-                .on("mousedown", mousedown)
-                .on("mousemove", mousemove)
-                .on("mouseup", mouseup)
-                .on("mouseout", mouseout);
+            svg.on("mousedown", mousedown).on("mousemove", mousemove).on("mouseup", mouseup).on("mouseout", mouseout);
             // position the reset button and attach reset function
             d3.select('#resetBtn')
                 .style('top', margin.top * 1.5 + 'px')
