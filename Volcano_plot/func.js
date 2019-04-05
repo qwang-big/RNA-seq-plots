@@ -65,9 +65,7 @@ function volcanoPlot() {
 
             // add the axes
             var xAxis = d3.axisBottom(xScale);
-            var yAxis = d3.axisLeft(yScale)
-                .ticks(5)
-                .tickFormat(yTickFormat);
+            var yAxis = d3.axisLeft(yScale);
 
             var gX = svg.append('g')
                 .attr('class', 'x axis')
